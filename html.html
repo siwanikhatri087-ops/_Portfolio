@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HTML — CET138 ePortfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Learn about HTML - HyperText Markup Language in this comprehensive guide." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header" id="top">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-icon">⬡</span>
+        <span>CET138 <em>ePortfolio</em></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="fullstack.html">Full Stack</a>
+        <a href="html.html">HTML</a>
+        <a href="css.html">CSS</a>
+        <a href="bootstrap.html">Bootstrap</a>
+        <a href="javascript.html">JavaScript</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Toggle menu" id="navToggle">☰</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══ SECTION 2 — HTML ═══ -->
+    <section id="html" class="section section-html">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag section-tag--orange">Section 2</span>
+          <h2 class="section-title">HTML — HyperText Markup Language</h2>
+          <p class="section-intro">HTML is the backbone of every webpage. It provides the <strong>structural skeleton</strong> of a document using elements and tags, telling the browser what each piece of content <em>is</em> — a heading, a paragraph, an image, a form — independently of how it looks.</p>
+        </div>
+
+        <div class="two-col reverse">
+          <div class="text-block">
+            <h3>Semantic HTML</h3>
+            <p>Modern HTML5 promotes <strong>semantic markup</strong> — using elements that convey meaning rather than just appearance. Tags like <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, and <code>&lt;footer&gt;</code> communicate the document's structure to browsers, search engines, and assistive technologies.</p>
+            <h3>Accessibility</h3>
+            <p>Proper HTML improves <strong>web accessibility</strong>. Using <code>aria-*</code> attributes, <code>label</code> elements linked to inputs, and meaningful <code>alt</code> text for images ensures that screen readers can navigate a page for users with visual impairments.</p>
+            <h3>Forms &amp; Validation</h3>
+            <p>HTML5 introduced powerful native form validation attributes such as <code>required</code>, <code>type="email"</code>, <code>minlength</code>, and <code>pattern</code>, reducing the need for JavaScript validation for basic checks.</p>
+          </div>
+          <div class="code-preview">
+            <div class="code-preview-bar">
+              <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+              <span class="code-lang">HTML5</span>
+            </div>
+            <pre class="code-block"><code><span class="c-tag">&lt;article</span> <span class="c-attr">aria-labelledby</span>=<span class="c-str">"post-title"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;header&gt;</span>
+    <span class="c-tag">&lt;h2</span> <span class="c-attr">id</span>=<span class="c-str">"post-title"</span><span class="c-tag">&gt;</span>Semantic HTML<span class="c-tag">&lt;/h2&gt;</span>
+    <span class="c-tag">&lt;time</span> <span class="c-attr">datetime</span>=<span class="c-str">"2024-01-15"</span><span class="c-tag">&gt;</span>15 Jan 2024<span class="c-tag">&lt;/time&gt;</span>
+  <span class="c-tag">&lt;/header&gt;</span>
+  <span class="c-tag">&lt;p&gt;</span>Using the right element for
+  the right job matters.<span class="c-tag">&lt;/p&gt;</span>
+  <span class="c-tag">&lt;footer&gt;</span>
+    <span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-str">"/more"</span><span class="c-tag">&gt;</span>Read more<span class="c-tag">&lt;/a&gt;</span>
+  <span class="c-tag">&lt;/footer&gt;</span>
+<span class="c-tag">&lt;/article&gt;</span></code></pre>
+          </div>
+        </div>
+
+        <div class="demo-cta-card demo-cta-card--orange">
+          <div class="demo-cta-text">
+            <h3>Live HTML Demo</h3>
+            <p>An accessible login form built using <strong>pure semantic HTML only</strong> — no CSS, no JavaScript. Demonstrates structural landmarks (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>), a fieldset form with native validation, <code>aria-describedby</code> attributes, proper <code>label</code>/<code>input</code> pairing, and HTML5 input types.</p>
+          </div>
+          <a class="btn btn-primary btn-orange" href="html-demo/html-demo.html" target="_blank" rel="noopener">Open HTML Demo ↗</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-icon">⬡</span> CET138 ePortfolio
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="fullstack.html">Full Stack</a>
+        <a href="html.html">HTML</a>
+        <a href="css.html">CSS</a>
+        <a href="bootstrap.html">Bootstrap</a>
+        <a href="javascript.html">JavaScript</a>
+      </div>
+      <div class="footer-copy">© <span id="year"></span> CET138 Full Stack Development · Assignment 1</div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

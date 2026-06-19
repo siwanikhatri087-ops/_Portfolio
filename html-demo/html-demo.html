@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Demo — Semantic Accessible Login Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CET138 HTML-only demo: a fully semantic, accessible login form using no CSS or JavaScript.">
+</head>
+<body>
+
+  <!-- LANDMARK: site-wide header -->
+  <header>
+    <h1>CET138 HTML Demo</h1>
+    <nav aria-label="Breadcrumb">
+      <ol>
+        <li><a href="../index.html">ePortfolio Home</a></li>
+        <li aria-current="page">HTML Demo</li>
+      </ol>
+    </nav>
+  </header>
+
+  <!-- LANDMARK: main page content -->
+  <main>
+
+    <!-- Section 1: Explanation -->
+    <section aria-labelledby="about-heading">
+      <h2 id="about-heading">What this page demonstrates</h2>
+      <p>
+        This page is built with <strong>pure HTML5 only</strong> — no CSS, no JavaScript.
+        It demonstrates the following HTML concepts:
+      </p>
+      <ul>
+        <li>Semantic landmark elements: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code></li>
+        <li>Accessible form with a <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code></li>
+        <li>Correct <code>&lt;label for&gt;</code> / <code>&lt;input id&gt;</code> pairing</li>
+        <li>HTML5 input types: <code>email</code>, <code>password</code>, <code>checkbox</code></li>
+        <li>Native validation: <code>required</code>, <code>minlength</code>, <code>type="email"</code></li>
+        <li>Accessibility attributes: <code>aria-describedby</code>, <code>aria-required</code>, <code>aria-live</code></li>
+        <li>Metadata: <code>autocomplete</code>, <code>inputmode</code></li>
+        <li>Semantic text: <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;time&gt;</code>, <code>&lt;abbr&gt;</code>, <code>&lt;code&gt;</code></li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <!-- Section 2: The login form -->
+    <section aria-labelledby="login-heading">
+      <h2 id="login-heading">Log in to your account</h2>
+
+      <article aria-label="Login Form">
+        <form
+          action="/demo-login"
+          method="post"
+          novalidate
+          aria-describedby="form-note"
+        >
+          <p id="form-note">
+            <em>Note:</em> This form is for demonstration purposes only. Submission is disabled.
+            Fields use HTML5 native validation.
+          </p>
+
+          <fieldset>
+            <legend>Account Credentials</legend>
+
+            <!-- Email field -->
+            <p id="email-hint">Use your university email address (e.g., student@uni.ac.uk).</p>
+            <label for="email">
+              Email address <abbr title="required" aria-hidden="true">*</abbr>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              inputmode="email"
+              autocomplete="username"
+              placeholder="student@university.ac.uk"
+              aria-describedby="email-hint"
+              aria-required="true"
+              required
+            >
+
+            <!-- Password field -->
+            <p id="password-hint">Password must be at least 8 characters long.</p>
+            <label for="password">
+              Password <abbr title="required" aria-hidden="true">*</abbr>
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              minlength="8"
+              autocomplete="current-password"
+              aria-describedby="password-hint"
+              aria-required="true"
+              required
+            >
+
+            <!-- Remember me checkbox -->
+            <label for="remember">
+              <input type="checkbox" id="remember" name="remember" value="yes">
+              Remember me on this device
+            </label>
+
+          </fieldset>
+
+          <!-- Submit -->
+          <button type="submit">Sign In</button>
+
+          <!-- Forgot password link -->
+          <p>
+            <a href="/forgot-password" rel="nofollow">Forgot your password?</a>
+          </p>
+
+          <!-- Registration link -->
+          <p>
+            Don't have an account?
+            <a href="/register" rel="nofollow">Create one here</a>.
+          </p>
+
+        </form>
+      </article>
+
+    </section>
+
+    <hr>
+
+    <!-- Section 3: Key HTML elements reference -->
+    <section aria-labelledby="elements-heading">
+      <h2 id="elements-heading">Key HTML Elements Used</h2>
+
+      <table>
+        <caption>Semantic HTML5 Elements Demonstrated on This Page</caption>
+        <thead>
+          <tr>
+            <th scope="col">Element</th>
+            <th scope="col">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;header&gt;</code></td>
+            <td>Introductory content for the page or section</td>
+          </tr>
+          <tr>
+            <td><code>&lt;nav&gt;</code></td>
+            <td>Navigation links — labelled with <code>aria-label</code></td>
+          </tr>
+          <tr>
+            <td><code>&lt;main&gt;</code></td>
+            <td>The primary unique content of the page (used once)</td>
+          </tr>
+          <tr>
+            <td><code>&lt;section&gt;</code></td>
+            <td>Thematic grouping of content, each labelled by heading</td>
+          </tr>
+          <tr>
+            <td><code>&lt;article&gt;</code></td>
+            <td>Self-contained content (the form widget)</td>
+          </tr>
+          <tr>
+            <td><code>&lt;fieldset&gt; / &lt;legend&gt;</code></td>
+            <td>Groups related form controls with an accessible label</td>
+          </tr>
+          <tr>
+            <td><code>&lt;label for="…"&gt;</code></td>
+            <td>Associates a text label with an input for accessibility</td>
+          </tr>
+          <tr>
+            <td><code>&lt;footer&gt;</code></td>
+            <td>Footer information for the page</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- Aside: supplementary info -->
+  <aside aria-label="Further reading">
+    <h3>Further Reading</h3>
+    <ul>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element" rel="noopener" target="_blank">MDN HTML Element Reference</a></li>
+      <li><a href="https://www.w3.org/WAI/WCAG21/quickref/" rel="noopener" target="_blank">WCAG 2.1 Accessibility Guidelines</a></li>
+    </ul>
+  </aside>
+
+  <!-- LANDMARK: site-wide footer -->
+  <footer>
+    <small>
+      CET138 Full Stack Development · HTML Demo ·
+      <time datetime="2024">2024</time> ·
+      Page built with pure HTML5 — no CSS, no JavaScript.
+    </small>
+  </footer>
+
+</body>
+</html>

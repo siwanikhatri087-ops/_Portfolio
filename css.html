@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CSS — CET138 ePortfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Learn about CSS - Cascading Style Sheets in this comprehensive guide." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header" id="top">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-icon">⬡</span>
+        <span>CET138 <em>ePortfolio</em></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="fullstack.html">Full Stack</a>
+        <a href="html.html">HTML</a>
+        <a href="css.html">CSS</a>
+        <a href="bootstrap.html">Bootstrap</a>
+        <a href="javascript.html">JavaScript</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Toggle menu" id="navToggle">☰</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══ SECTION 3 — CSS ═══ -->
+    <section id="css" class="section section-css">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag section-tag--cyan">Section 3</span>
+          <h2 class="section-title">CSS — Cascading Style Sheets</h2>
+          <p class="section-intro">CSS controls the <strong>visual presentation</strong> of HTML elements — colours, fonts, spacing, layouts, and animations. Modern CSS is remarkably powerful, enabling complex responsive layouts and fluid animations without any JavaScript.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="text-block">
+            <h3>CSS Grid &amp; Flexbox</h3>
+            <p><strong>CSS Grid</strong> is a two-dimensional layout system ideal for page-level structure. <strong>Flexbox</strong> handles one-dimensional layouts — rows or columns — perfectly. Together they replace the old float-based hacks and make responsive design straightforward.</p>
+            <h3>Custom Properties (Variables)</h3>
+            <p>CSS Custom Properties (<code>--variable-name</code>) allow you to define reusable values (colours, spacing) in one place and reference them everywhere, making themes and design systems easy to maintain.</p>
+            <h3>Animations &amp; Transitions</h3>
+            <p>Using <code>@keyframes</code> and the <code>animation</code> / <code>transition</code> properties, CSS can produce smooth hover effects, fade-ins, slide-ins, and complex multi-step sequences — all without touching JavaScript.</p>
+          </div>
+          <div class="code-preview">
+            <div class="code-preview-bar">
+              <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+              <span class="code-lang">CSS3</span>
+            </div>
+            <pre class="code-block"><code><span class="c-sel">:root</span> {
+  <span class="c-prop">--accent</span>: <span class="c-val">#d4a574</span>;
+  <span class="c-prop">--radius</span>: <span class="c-val">12px</span>;
+}
+
+<span class="c-sel">.card</span> {
+  <span class="c-prop">display</span>: <span class="c-val">grid</span>;
+  <span class="c-prop">background</span>: <span class="c-val">rgba(255,255,255,.1)</span>;
+  <span class="c-prop">backdrop-filter</span>: <span class="c-val">blur(12px)</span>;
+  <span class="c-prop">border-radius</span>: <span class="c-val">var(--radius)</span>;
+  <span class="c-prop">transition</span>: <span class="c-val">transform .3s ease</span>;
+}
+
+<span class="c-sel">.card:hover</span> {
+  <span class="c-prop">transform</span>: <span class="c-val">translateY(-8px)</span>;
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="demo-cta-card demo-cta-card--cyan">
+          <div class="demo-cta-text">
+            <h3>Live CSS Demo</h3>
+            <p>An animated glassmorphism card gallery built with <strong>pure CSS</strong>. Features CSS Grid for responsive layout, <code>backdrop-filter</code> for frosted-glass effects, CSS Custom Properties for theming, <code>@keyframes</code> fade-in animations, and smooth hover lift transitions — zero JavaScript.</p>
+          </div>
+          <a class="btn btn-primary btn-cyan" href="css-demo/css-demo.html" target="_blank" rel="noopener">Open CSS Demo ↗</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-icon">⬡</span> CET138 ePortfolio
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="fullstack.html">Full Stack</a>
+        <a href="html.html">HTML</a>
+        <a href="css.html">CSS</a>
+        <a href="bootstrap.html">Bootstrap</a>
+        <a href="javascript.html">JavaScript</a>
+      </div>
+      <div class="footer-copy">© <span id="year"></span> CET138 Full Stack Development · Assignment 1</div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

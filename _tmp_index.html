@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CET138 — Full Stack Development ePortfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ePortfolio for CET138 Full Stack Development — showcasing HTML, CSS, Bootstrap, JavaScript and Full Stack understanding." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body>
+
+  <!-- ──── HEADER ──── -->
+  <header class="site-header" id="top">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <span class="brand-icon">➳</span>
+        <span>CET138 <em>ePortfolio</em></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="fullstack.html">Full Stack</a>
+        <a href="html.html">HTML</a>
+        <a href="css.html">CSS</a>
+        <a href="bootstrap.html">Bootstrap</a>
+        <a href="javascript.html">JavaScript</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Toggle menu" id="navToggle">☰</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ──── Demos (Home) ──── -->
+    <section id="demos" class="section section-demos">
+      <div class="container">
+        <div class="section-header">
+          <button class="btn btn-primary" id="exploreBtn">Explore Sections ↓</button>
+          <h2 class="section-title" style="margin-top:1rem;">All Live Demos</h2>
+          <p class="section-intro">Quick access to every working demonstration included in this portfolio.</p>
+        </div>
+        <div class="demo-grid">
+          <a class="demo-card demo-card--orange" href="html-demo/html-demo.html" target="_blank" rel="noopener">
+            <div class="demo-card-icon">🎗️</div>
+            <div class="demo-card-body">
+              <h3>HTML Demo</h3>
+              <p>Semantic login form — structure only, no CSS or JavaScript</p>
+            </div>
+            <span class="demo-card-arrow">↗</span>
+          </a>
+          <a class="demo-card demo-card--cyan" href="css-demo/css-demo.html" target="_blank" rel="noopener">
+            <div class="demo-card-icon">🎨</div>
+            <div class="demo-card-body">
+              <h3>CSS Demo</h3>
+              <p>Animated glassmorphism card layout with pure CSS</p>
+            </div>
+            <span class="demo-card-arrow">↗</span>
+          </a>
+          <a class="demo-card demo-card--violet" href="bootstrap-demo/bootstrap-demo.html" target="_blank" rel="noopener">
+            <div class="demo-card-icon">📐</div>
+            <div class="demo-card-body">
+              <h3>Bootstrap Demo</h3>
+              <p>Responsive product page using Bootstrap 5 grid &amp; components</p>
+            </div>
+            <span class="demo-card-arrow">↗</span>
+          </a>
+          <a class="demo-card demo-card--green" href="javascript-demo/javascript-demo.html" target="_blank" rel="noopener">
+            <div class="demo-card-icon">⚡</div>
+            <div class="demo-card-body">
+              <h3>JavaScript Demo</h3>
+              <p>Fully working calculator with DOM manipulation &amp; state</p>
+            </div>
+            <span class="demo-card-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ──── FOOTER ──── -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-icon">➳</span> CET138 ePortfolio
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="fullstack.html">Full Stack</a>
+        <a href="html.html">HTML</a>
+        <a href="css.html">CSS</a>
+        <a href="bootstrap.html">Bootstrap</a>
+        <a href="javascript.html">JavaScript</a>
+      </div>
+      <div class="footer-copy">© <span id="year"></span> CET138 Full Stack Development · Assignment 1</div>
+    </div>
+  </footer>
+
+  <!-- ──── MODAL ──── -->
+  <div class="modal-overlay" id="sectionsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">All Sections</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <div class="sections-grid">
+        <a href="fullstack.html" class="section-card">
+          <div class="section-card-icon">🤩</div>
+          <div class="section-card-title">Full Stack Development</div>
+          <div class="section-card-desc">Learn about building both front-end and back-end applications</div>
+        </a>
+        <a href="html.html" class="section-card">
+          <div class="section-card-icon">🎗️</div>
+          <div class="section-card-title">HTML</div>
+          <div class="section-card-desc">Master semantic HTML and document structure</div>
+        </a>
+        <a href="css.html" class="section-card">
+          <div class="section-card-icon">🎨</div>
+          <div class="section-card-title">CSS</div>
+          <div class="section-card-desc">Create stunning layouts with Grid, Flexbox, and animations</div>
+        </a>
+        <a href="bootstrap.html" class="section-card">
+          <div class="section-card-icon">📐</div>
+          <div class="section-card-title">Bootstrap Framework</div>
+          <div class="section-card-desc">Build responsive pages with the popular CSS framework</div>
+        </a>
+        <a href="javascript.html" class="section-card">
+          <div class="section-card-icon">⚡</div>
+          <div class="section-card-title">JavaScript</div>
+          <div class="section-card-desc">Make web pages interactive with dynamic programming</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+

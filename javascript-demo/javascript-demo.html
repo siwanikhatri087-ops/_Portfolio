@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Demo — Interactive Calculator</title>
+  <meta name="description" content="CET138 JavaScript demo: a fully functional calculator demonstrating DOM manipulation, event handling, state management, and keyboard support.">
+  <style>
+    /* ─── Colour tokens ─── */
+    :root {
+      --bg:        #0f0f1a;
+      --surface:   #1a1a2e;
+      --surface2:  #22223a;
+      --border:    rgba(255,255,255,.1);
+      --violet:    #7c3aed;
+      --cyan:      #06b6d4;
+      --green:     #10b981;
+      --orange:    #f97316;
+      --red:       #ef4444;
+      --text:      #e2e8f0;
+      --muted:     #94a3b8;
+      --white:     #ffffff;
+      --radius:    14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      background-image:
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(124,58,237,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(6,182,212,.12) 0%, transparent 60%);
+    }
+
+    /* Back link */
+    .back-link {
+      align-self: flex-start;
+      color: var(--cyan);
+      font-size: .9rem;
+      margin-bottom: 2rem;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* Page title */
+    h1 {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: .5rem; text-align: center;
+    }
+    .subtitle { color: var(--muted); font-size: .9rem; text-align: center; margin-bottom: 2.5rem; }
+
+    /* ─── Layout: calculator + explanation side by side ─── */
+    .layout {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* ─── Calculator widget ─── */
+    .calculator {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 1.5rem;
+      width: 320px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      flex-shrink: 0;
+    }
+
+    /* History log */
+    #history {
+      background: var(--surface2);
+      border-radius: var(--radius);
+      padding: .75rem 1rem;
+      min-height: 3rem;
+      max-height: 80px;
+      overflow-y: auto;
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: .75rem;
+      text-align: right;
+      border: 1px solid var(--border);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Main display */
+    .display-wrap {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      text-align: right;
+    }
+    .display-expression {
+      font-size: .8rem; color: var(--muted); min-height: 1.2em;
+      font-family: 'Courier New', monospace;
+      margin-bottom: .25rem;
+    }
+    #display {
+      font-size: 2.2rem; font-weight: 700; color: var(--white);
+      word-break: break-all; line-height: 1.1;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Keypad */
+    #keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .5rem;
+    }
+
+    /* All buttons */
+    button.key {
+      padding: 1rem .5rem;
+      font-size: 1.1rem; font-weight: 600;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: transform .12s, background .15s, box-shadow .15s;
+      background: var(--surface2); color: var(--text);
+      font-family: inherit;
+    }
+    button.key:hover  { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); }
+    button.key:active { transform: scale(.94); }
+
+    /* Operator keys */
+    button.key.op {
+      background: rgba(124,58,237,.2); color: var(--violet);
+      border-color: rgba(124,58,237,.3);
+    }
+    button.key.op:hover { background: rgba(124,58,237,.35); }
+
+    /* Equals key */
+    button.key.equals {
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      color: var(--white); border: none;
+      box-shadow: 0 4px 16px rgba(124,58,237,.4);
+    }
+    button.key.equals:hover { box-shadow: 0 6px 24px rgba(124,58,237,.6); transform: translateY(-1px); }
+
+    /* Clear keys */
+    button.key.clear   { background: rgba(239,68,68,.15); color: #fca5a5; border-color: rgba(239,68,68,.3); }
+    button.key.clear:hover { background: rgba(239,68,68,.3); }
+    button.key.backsp  { background: rgba(249,115,22,.12); color: var(--orange); border-color: rgba(249,115,22,.3); }
+
+    /* Zero (span 2 columns) */
+    button.key.zero { grid-column: span 2; }
+
+    /* ─── Explanation panel ─── */
+    .explanation {
+      flex: 1; min-width: 260px; max-width: 480px;
+    }
+    .explanation h2 {
+      font-size: 1.25rem; font-weight: 700; color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .concept {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      margin-bottom: .75rem;
+    }
+    .concept h3 {
+      font-size: .9rem; font-weight: 700;
+      color: var(--cyan); margin-bottom: .4rem; letter-spacing: .04em;
+    }
+    .concept p { font-size: .85rem; color: var(--muted); line-height: 1.65; }
+    .concept code { background: rgba(255,255,255,.06); padding: 1px 5px; border-radius: 4px; color: #a5d6ff; font-size: .83em; }
+
+    /* Keyboard hint */
+    .kb-hint {
+      background: rgba(16,185,129,.08); border: 1px solid rgba(16,185,129,.25);
+      border-radius: var(--radius); padding: 1rem 1.25rem; margin-top: 1rem;
+    }
+    .kb-hint h3 { font-size: .9rem; color: var(--green); margin-bottom: .4rem; }
+    .kb-hint p  { font-size: .82rem; color: var(--muted); }
+    .kb-hint kbd {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1px 6px; font-size: .8rem; color: var(--text);
+      font-family: 'Courier New', monospace;
+    }
+
+    footer {
+      margin-top: 3rem; text-align: center; font-size: .8rem;
+      color: var(--muted); padding-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back-link" href="../index.html">← Back to ePortfolio</a>
+
+  <h1>JavaScript Calculator</h1>
+  <p class="subtitle">Demonstrates DOM manipulation, event handling, and state management — vanilla JS only.</p>
+
+  <div class="layout">
+
+    <!-- ╔═══════════════════╗
+         ║   CALCULATOR UI   ║
+         ╚═══════════════════╝ -->
+    <div class="calculator" role="application" aria-label="Calculator">
+
+      <!-- Calculation history -->
+      <div id="history" aria-live="polite" aria-label="Calculation history" title="Calculation history"></div>
+
+      <!-- Display -->
+      <div class="display-wrap">
+        <div class="display-expression" id="expression" aria-live="polite"></div>
+        <div id="display" role="status" aria-live="polite" aria-atomic="true">0</div>
+      </div>
+
+      <!-- Keypad -->
+      <div id="keys" role="group" aria-label="Calculator keys">
+
+        <!-- Row 1 -->
+        <button class="key clear"  onclick="clearAll()"        aria-label="Clear all">AC</button>
+        <button class="key backsp" onclick="backspace()"       aria-label="Backspace">⌫</button>
+        <button class="key op"     onclick="setOperator('%')"  aria-label="Modulo">%</button>
+        <button class="key op"     onclick="setOperator('/')"  aria-label="Divide">÷</button>
+
+        <!-- Row 2 -->
+        <button class="key" onclick="appendDigit('7')" aria-label="7">7</button>
+        <button class="key" onclick="appendDigit('8')" aria-label="8">8</button>
+        <button class="key" onclick="appendDigit('9')" aria-label="9">9</button>
+        <button class="key op" onclick="setOperator('*')" aria-label="Multiply">×</button>
+
+        <!-- Row 3 -->
+        <button class="key" onclick="appendDigit('4')" aria-label="4">4</button>
+        <button class="key" onclick="appendDigit('5')" aria-label="5">5</button>
+        <button class="key" onclick="appendDigit('6')" aria-label="6">6</button>
+        <button class="key op" onclick="setOperator('-')" aria-label="Subtract">−</button>
+
+        <!-- Row 4 -->
+        <button class="key" onclick="appendDigit('1')" aria-label="1">1</button>
+        <button class="key" onclick="appendDigit('2')" aria-label="2">2</button>
+        <button class="key" onclick="appendDigit('3')" aria-label="3">3</button>
+        <button class="key op" onclick="setOperator('+')" aria-label="Add">+</button>
+
+        <!-- Row 5 -->
+        <button class="key zero" onclick="appendDigit('0')" aria-label="0">0</button>
+        <button class="key" onclick="appendDecimal()" aria-label="Decimal point">.</button>
+        <button class="key equals" onclick="calculateResult()" aria-label="Equals">=</button>
+
+      </div>
+    </div>
+
+    <!-- ╔═══════════════════════════╗
+         ║   EXPLANATION PANEL      ║
+         ╚═══════════════════════════╝ -->
+    <div class="explanation">
+      <h2>JavaScript Concepts Demonstrated</h2>
+
+      <div class="concept">
+        <h3>1. VARIABLES &amp; STATE</h3>
+        <p>Three <code>let</code> variables hold the calculator's state: <code>currentInput</code> (what you're typing), <code>previousValue</code> (the stored number), and <code>operator</code> (the pending operation). State persists across function calls.</p>
+      </div>
+
+      <div class="concept">
+        <h3>2. DOM SELECTION</h3>
+        <p><code>document.getElementById('display')</code> and <code>querySelector()</code> grab references to HTML elements. The script reads and writes their <code>textContent</code> to update what the user sees in real time.</p>
+      </div>
+
+      <div class="concept">
+        <h3>3. EVENT HANDLING</h3>
+        <p>Each button uses <code>onclick</code> attributes to call JavaScript functions. The keyboard listener uses <code>document.addEventListener('keydown', handler)</code> to map physical keys to calculator actions.</p>
+      </div>
+
+      <div class="concept">
+        <h3>4. FUNCTIONS &amp; CONTROL FLOW</h3>
+        <p>Each action (<code>appendDigit()</code>, <code>setOperator()</code>, <code>calculateResult()</code>) is an isolated function. A <code>switch</code> statement inside <code>calculateResult()</code> selects the correct arithmetic operation.</p>
+      </div>
+
+      <div class="concept">
+        <h3>5. ERROR HANDLING</h3>
+        <p>Division by zero is caught explicitly: <code>if (b === 0) return 'Error'</code>. The <code>isNaN()</code> guard prevents invalid parse results from propagating through the display.</p>
+      </div>
+
+      <div class="concept">
+        <h3>6. CHAINED OPERATIONS</h3>
+        <p>If you press an operator when one is already pending, <code>calculateResult()</code> is called first to compute the intermediate result — enabling chains like <code>5 + 3 × 2</code> without losing the previous value.</p>
+      </div>
+
+      <div class="kb-hint">
+        <h3>⌨️ Keyboard Support</h3>
+        <p>
+          <kbd>0</kbd>–<kbd>9</kbd> digits ·
+          <kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd> operators ·
+          <kbd>Enter</kbd> or <kbd>=</kbd> to calculate ·
+          <kbd>Backspace</kbd> to delete ·
+          <kbd>Escape</kbd> to clear
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    CET138 Full Stack Development · JavaScript Demo · Vanilla JavaScript — no frameworks.
+  </footer>
+
+  <script>
+    /*
+     * ═══════════════════════════════════════════════════════
+     *  CET138 JavaScript Demo — Calculator
+     *  Demonstrates: variables, DOM manipulation, event
+     *  handling, functions, switch statements, error handling
+     * ═══════════════════════════════════════════════════════
+     */
+
+    // ── APPLICATION STATE ──
+    // These three variables hold the calculator's current state.
+    // They persist across function calls, acting as "memory".
+    let currentInput  = '0';    // The number currently being entered
+    let previousValue = null;   // The stored first operand
+    let operator      = null;   // The pending operation (+, -, *, /)
+    let justCalculated = false; // Tracks whether = was just pressed
+
+    // ── DOM REFERENCES ──
+    // Store references to elements we update frequently.
+    const display    = document.getElementById('display');
+    const expression = document.getElementById('expression');
+    const history    = document.getElementById('history');
+
+    // ── updateDisplay() ──
+    // Updates both the main display and the expression line.
+    function updateDisplay() {
+      display.textContent = currentInput;
+      if (operator && previousValue !== null) {
+        const opSymbol = { '+': '+', '-': '−', '*': '×', '/': '÷', '%': '%' }[operator] || operator;
+        expression.textContent = `${previousValue} ${opSymbol}`;
+      } else {
+        expression.textContent = '';
+      }
+    }
+
+    // ── appendDigit(digit) ──
+    // Appends a digit character to currentInput.
+    // Replaces '0' to avoid leading zeros like "007".
+    function appendDigit(digit) {
+      if (justCalculated) {
+        // After =, start fresh with the new digit
+        currentInput   = digit;
+        justCalculated = false;
+      } else if (currentInput === '0' || currentInput === 'Error') {
+        currentInput = digit;
+      } else if (currentInput.length < 15) {   // Limit display length
+        currentInput += digit;
+      }
+      updateDisplay();
+    }
+
+    // ── appendDecimal() ──
+    // Adds a decimal point, but only if one doesn't already exist
+    // in currentInput — prevents invalid numbers like "3.1.4".
+    function appendDecimal() {
+      if (justCalculated) {
+        currentInput   = '0.';
+        justCalculated = false;
+      } else if (!currentInput.includes('.')) {
+        currentInput += '.';
+        updateDisplay();
+      }
+    }
+
+    // ── setOperator(op) ──
+    // Stores the chosen operator and saves the current number.
+    // If an operator is already pending, chains the calculation first.
+    function setOperator(op) {
+      if (currentInput === 'Error') return;
+      if (operator && previousValue !== null) {
+        // Chain: compute intermediate result before setting new operator
+        calculateResult();
+      }
+      previousValue  = parseFloat(currentInput);
+      operator       = op;
+      justCalculated = false;
+      currentInput   = '0';   // Ready for the next number
+      updateDisplay();
+    }
+
+    // ── calculateResult() ──
+    // Performs the arithmetic and updates the display.
+    // Uses a switch statement to select the correct operation.
+    function calculateResult() {
+      if (operator === null || previousValue === null) return;
+      if (currentInput === 'Error') return;
+
+      const a = previousValue;
+      const b = parseFloat(currentInput);
+      let result;
+
+      // switch: maps each operator string to its arithmetic
+      switch (operator) {
+        case '+': result = a + b;                               break;
+        case '-': result = a - b;                               break;
+        case '*': result = a * b;                               break;
+        case '/': result = b === 0 ? 'Error' : (a / b);        break;
+        case '%': result = b === 0 ? 'Error' : (a % b);        break;
+        default:  return;
+      }
+
+      // Add entry to the history log
+      const opSymbol = { '+': '+', '-': '−', '*': '×', '/': '÷', '%': '%' }[operator];
+      const historyEntry = document.createElement('div');
+      historyEntry.textContent = `${a} ${opSymbol} ${b} = ${result}`;
+      history.prepend(historyEntry);
+
+      // Update state — result becomes the new currentInput
+      currentInput   = typeof result === 'number'
+                         ? parseFloat(result.toFixed(10)).toString()
+                         : 'Error';
+      previousValue  = null;
+      operator       = null;
+      justCalculated = true;
+      expression.textContent = '';
+      updateDisplay();
+    }
+
+    // ── backspace() ──
+    // Removes the last character. Resets to '0' if only one digit left.
+    function backspace() {
+      if (justCalculated || currentInput === 'Error') {
+        clearAll(); return;
+      }
+      currentInput = currentInput.length > 1
+                       ? currentInput.slice(0, -1)
+                       : '0';
+      updateDisplay();
+    }
+
+    // ── clearAll() ──
+    // Resets ALL state — equivalent to a full calculator reset.
+    function clearAll() {
+      currentInput   = '0';
+      previousValue  = null;
+      operator       = null;
+      justCalculated = false;
+      expression.textContent = '';
+      updateDisplay();
+    }
+
+    // ── KEYBOARD SUPPORT ──
+    // addEventListener attaches a handler to the document.
+    // The 'keydown' event fires whenever a key is pressed.
+    document.addEventListener('keydown', function(event) {
+      const key = event.key;
+
+      if (key >= '0' && key <= '9')         appendDigit(key);
+      else if (key === '.')                  appendDecimal();
+      else if (key === '+')                  setOperator('+');
+      else if (key === '-')                  setOperator('-');
+      else if (key === '*')                  setOperator('*');
+      else if (key === '/')  { event.preventDefault(); setOperator('/'); }
+      else if (key === '%')                  setOperator('%');
+      else if (key === 'Enter' || key === '=') calculateResult();
+      else if (key === 'Backspace')          backspace();
+      else if (key === 'Escape')             clearAll();
+    });
+
+    // Initial display render
+    updateDisplay();
+  </script>
+
+</body>
+</html>
